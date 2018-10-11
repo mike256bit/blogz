@@ -1,0 +1,18 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+
+<p>Add a new blog post:</p>
+{% if error_msg %}
+<p style="color:red;">{{error_msg}}</p>
+{% endif %}
+
+<form action="/add-post" method="POST">
+    <p>Title: <input name="title" type="text"></p>
+    <p>Post:</p>
+    <textarea name="body"></textarea>
+    <br>
+    <button type="submit">Post</button>
+</form>
+
+{% endblock %}
