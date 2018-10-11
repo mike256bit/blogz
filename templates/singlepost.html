@@ -1,0 +1,21 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+
+<div class="post">
+    <div class="title">
+        {{post.db_title}}
+    </div>
+    <div class="body">
+        <p>{{post.db_body}}</p>
+        <p class="date">Posted at: {{post.db_date}}</p>
+    </div>
+    <form action="/del-post" method="POST">
+        <input type="hidden" name="post_id" value="{{post.id}}">
+        <button class="deleted tooltip" type="submit">X
+            <span class="tooltiptext">Delete post</span>
+        </button>
+    </form>
+</div>
+
+{% endblock %}
