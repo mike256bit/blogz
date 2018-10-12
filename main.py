@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 
@@ -8,6 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://build-a-blog:blogtownus
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
+app.secret_key = '44jjsslgqtg6s'
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -44,23 +45,26 @@ def del_post():
     return redirect("/")
 
 #function for rendering a post on its own page
-@app.route("/single-post")
+@app.route("/post")
 def single_post():
     post_id = request.args.get("id")
     display_post = Post.query.filter_by(id=post_id).first()
+
+    if display_post not in get_posts():
+        flash("Post ID '{0}' does not exist. ".format(post_id), "error")
+        return redirect("/")
+
     return render_template('singlepost.html', post=display_post)
 
 #function for rendering the "new post" page
 @app.route("/new-post")
 def new_post():
-    encoded_error = request.args.get("error")
-    return render_template('newpost.html', error_msg=encoded_error)
+    return render_template('newpost.html')
 
 #function to add a new post to the db
 @app.route("/add-post", methods=['GET', 'POST'])
 def add_post():
     no_error = True
-    error = ""
 
     if request.method == "POST":
         new_title = request.form['title']
@@ -73,11 +77,11 @@ def add_post():
         """
     
     if new_title == "":
-        error += "Please add a title. "
+        flash("Please add a title. ", "error")
         no_error = False
     
     if new_body == "":
-        error += "Canot submit an empty post. "
+        flash("Cannot submit an empty post. ", "error")
         no_error = False
 
     if no_error:
@@ -86,10 +90,10 @@ def add_post():
         db.session.add(new_post)
         db.session.commit()
         fetch_post = Post.query.filter_by(db_title=new_title).first()
-        return redirect("/single-post?id="+str(fetch_post.id))
+        return redirect("/post?id="+str(fetch_post.id))
     
     else:
-        return redirect("/new-post?error=" + error)
+        return render_template('newpost.html',post_title=new_title, post_body=new_body)
 
 def get_date():
     postdate = datetime.datetime.now()
