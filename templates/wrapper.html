@@ -11,7 +11,11 @@
 <body>
     
     <a href="/new-post">Add New Post</a> |
-    <a href="/">View All Posts</a><br>
+    <a href="/">View Your Posts</a> |
+    <a href="/">View All Posts</a> ||
+    <a href="/login">User Login</a> |
+    <a href="/signup">Create Account</a> |
+    <a href="/logout">Logout</a><br>
 
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% for category,message in messages %}

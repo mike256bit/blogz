@@ -29,12 +29,26 @@ h2 {
     margin: 5px;
 }
 
+/* refactor error message classes? */
+
 .error {
     color: red;
     display: block;
     width: 250px;
     margin: 10px auto 0;
     background-color:  #e2d0d0;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.greenlight {
+    color: rgb(25, 109, 0);
+    text-shadow: 0 0 3px rgb(0, 255, 0, .7);
+    display: block;
+    width: 250px;
+    margin: 10px auto 0;
+    background-color:  #d3e2d0;
     border-radius: 5px;
     padding: 5px;
     font-size: 12px;
@@ -137,6 +151,8 @@ button.deleted:hover .tooltiptext {
     visibility: visible;
 }
 
+/* refactor table CSS for login and signup */
+
 table {
     /* border: 1px solid black; */
     margin: 100px auto;
@@ -186,6 +202,11 @@ td button {
 
 td button:focus {
     background-color: rgb(87, 34, 34, .75);
+}
+
+td button.login {
+    padding: 18px 0;
+    float: left;
 }
 
 td.label {

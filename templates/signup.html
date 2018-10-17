@@ -1,0 +1,30 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+
+<form action="/signup" method="POST">
+<table>
+    <tr>
+        <td colspan="3"><h2>Create Account</h2></td>
+    </tr>
+    <tr>
+        <td class="label">Email:</td>
+        <td><input name="new_user" type="text" value="" tabindex="1" autofocus></td>
+        <td rowspan="3">
+            <button class="login" type="submit" tabindex="4">Register</button>
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Password:</td>
+        <td><input name="new_pass" type="password" tabindex="2">
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Re-enter Password:</td>
+        <td><input name="new_pass_2" type="password" tabindex="3">
+        </td>
+    </tr>
+</table>
+</form>
+
+{% endblock %}

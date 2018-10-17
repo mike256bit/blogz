@@ -11,7 +11,7 @@
         </div>
         <div class="body">
             <p>{{post.db_body}}</p>
-            <p class="date">Posted at: {{post.db_date}}</p>
+            <p class="date">Posted by {{post.author_id}} at: {{post.db_date}}</p>
         </div>
         <form action="/del-post" method="POST">
             <input type="hidden" name="post_id" value="{{post.id}}">
