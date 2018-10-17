@@ -26,6 +26,8 @@ class Post(db.Model):
     def __repr__(self):
         return "<Post %r>" % self.db_title
 
+
+
 #function to retrieve the previous posts in reverse order
 def get_posts():
     return Post.query.filter_by(deleted=False).order_by(Post.id.desc()).all()
