@@ -1,7 +1,6 @@
 {% extends "wrapper.html" %}
 
 {% block content %}
-<h1>a series of blog post</h1>
 
 {% for post in post_list: %}
 
@@ -11,13 +10,15 @@
         </div>
         <div class="body">
             <p>{{post.db_body}}</p>
-            <p class="date">Posted by {{post.author_id}} at: {{post.db_date}}</p>
+            <p class="date">Posted by <a href="/blog?id={{post.author_id}}">{{post.author.db_nickname}}</a> at: {{post.db_date}}</p>
         </div>
         <form action="/del-post" method="POST">
             <input type="hidden" name="post_id" value="{{post.id}}">
+            {% if post.author_id == loggedin.id %}
             <button class="deleted tooltip" type="submit">X
                     <span class="tooltiptext">Delete post</span>
             </button>
+            {% endif %}
         </form>
     </div>
 

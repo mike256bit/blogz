@@ -1,0 +1,19 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <td><h2>A Series of Blog Authors</h2></td>
+    </tr>
+{% for author in author_list %}
+<tr>
+    <td>
+        <div class="title authors">
+            <a href="/blog?id={{author.id}}">{{author.db_nickname}}</a><span class="postcount">Posts: {{author.db_postcount}}</span>
+        </div>
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

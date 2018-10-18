@@ -6,22 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <!-- TODO: Fix the title -->
-    <title>Blog</title>
+    <title>a series of blogs</title>
 </head>
 <body>
     
     <a href="/new-post">Add New Post</a> |
-    <a href="/">View Your Posts</a> |
-    <a href="/">View All Posts</a> ||
+    {% if loggedin != False %}<a href="/selfpost">View Your Posts</a> | {% endif %}
+    <a href="/">View All Posts</a> |
+    <a href="/authors">View Authors</a> ||
+    {% if loggedin != False %}Logged in as {{loggedin.db_nickname}} (<a href="/logout">Logout</a>)<br>
+    {% else %}
     <a href="/login">User Login</a> |
-    <a href="/signup">Create Account</a> |
-    <a href="/logout">Logout</a><br>
+    <a href="/signup">Create Account</a><br>
+    {% endif %}
+    <br>
 
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% for category,message in messages %}
         <span class="{{category}}">{{message}}</span>
         {% endfor %}
     {% endwith %}
+
+    <h1>a series of blog post</h1>
 
     {% block content %}
     {% endblock %}

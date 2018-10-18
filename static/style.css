@@ -9,7 +9,7 @@ body {
 
 a {
     color: #572222;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 h1 {
@@ -18,7 +18,7 @@ h1 {
     border-bottom-color: rgb(105, 105, 105, .8);
     width: 350px;
     line-height: .7;
-    margin: 30px auto 40px;
+    margin: 15px auto;
     font-size: 32px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
@@ -35,7 +35,7 @@ h2 {
     color: red;
     display: block;
     width: 250px;
-    margin: 10px auto 0;
+    margin: 0 auto 0;
     background-color:  #e2d0d0;
     border-radius: 5px;
     padding: 5px;
@@ -47,7 +47,7 @@ h2 {
     text-shadow: 0 0 3px rgb(0, 255, 0, .7);
     display: block;
     width: 250px;
-    margin: 10px auto 0;
+    margin: 0 auto 0;
     background-color:  #d3e2d0;
     border-radius: 5px;
     padding: 5px;
@@ -76,6 +76,15 @@ h2 {
     background-image: linear-gradient(135deg, #e6e6e6, white)
 }
 
+.authors {
+    font-size: 16px;
+    letter-spacing: initial;
+}
+
+.postcount {
+    float: right;
+}
+
 .title a {
     text-decoration-line: none;
     font-size: inherit;
@@ -92,6 +101,12 @@ h2 {
 .date {
     font-style: italic;
     font-size: 10px;
+}
+
+.date a {
+    text-decoration-line: none;
+    font-size: inherit;
+    font-family: inherit;
 }
 
 button.deleted {
@@ -154,11 +169,15 @@ button.deleted:hover .tooltiptext {
 /* refactor table CSS for login and signup */
 
 table {
-    /* border: 1px solid black; */
+    width: 400px;
     margin: 100px auto;
+    border-spacing: 5px 3px;
+}
+
+.newpost {
+    /* border: 1px solid black; */
     width: 60%;
     min-width: 400px;
-    border-spacing: 5px 3px;
 }
 
 td {

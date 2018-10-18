@@ -32,23 +32,62 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     db_email = db.Column(db.String(120), unique=True)
     db_password = db.Column(db.String(120))
+    db_postcount = db.Column(db.Integer)
+    db_nickname = db.Column(db.String(120), unique=True)
     db_posts = db.relationship('Post', backref='author')
 
-    def __init__(self, email, password):
+    def __init__(self, email, password, nickname):
         self.db_email = email
         self.db_password = password
+        self.db_nickname = nickname
+        self.db_postcount = 0
+    
+    # def __repr__(self):
+    #     return self.db_nickname
+
+#function to get date at time of post submission
+def get_date():
+    postdate = datetime.datetime.now()
+    at_date = postdate.strftime("%b %d %Y")
+    at_time = postdate.strftime("%I:%M %p")
+    return at_time+" | "+at_date
+
+#function to determine is session is active, return user
+def in_session():
+
+    if 'email' in session:
+        current_user = User.query.filter_by(db_email=session['email']).first()
+        print(current_user)
+        return current_user 
+    else:
+        return False
+
+#function to retrieve the previous posts in reverse order
+def get_posts():
+    return Post.query.filter_by(deleted=False).order_by(Post.id.desc()).all()
+
+def get_blog_posts(author_id):
+    return Post.query.filter_by(deleted=False).filter_by(author_id=author_id).order_by(Post.id.desc()).all()
+
+
+#function to retrieve the previous posts in reverse order
+def get_authors():
+    return User.query.order_by(User.id).all()
+
 
 #function to require login, prevent navigation if already logged in
 @app.before_request
 def logged_in():
-    allowed_routes = ['login', 'signup']
-    if request.endpoint not in allowed_routes and 'email' not in session:
+
+    allowed_routes = ['login', 'signup', 'index', 'authors', '/']
+
+    if request.endpoint not in allowed_routes and in_session() == False:
         flash("Login or Signup required.", "error")
         return redirect('/login')
 
-    if request.endpoint in allowed_routes and 'email' in session:
+    if request.endpoint in allowed_routes[:-3] and in_session() != False:
         flash("Already logged in!", "error")
-        return redirect("/")
+        return redirect('/')
     
 #function to log a user in
 @app.route("/login", methods=['POST', 'GET'])
@@ -57,10 +96,6 @@ def login():
     if request.method == 'POST':
         login_email = request.form['user_login']
         login_pass = request.form['user_pass']
-
-        """
-        TODO: Add a use nickname feature, if statement to check for email or nickname, filter appropriately. refer to nickname in flash message
-        """
 
         user = User.query.filter_by(db_email=login_email).first()
         if user and user.db_password == login_pass:
@@ -72,10 +107,10 @@ def login():
         else:
             flash("Incorrect password.", "error")
 
-    return render_template('login.html')
+    return render_template('login.html', loggedin=in_session())
 
 #function to validate new user input
-def validated(email, pass1, pass2):
+def validated(email, pass1, pass2, nick):
 
     if email == "" or pass1 == "":
         flash("Please enter an email/password", "error")
@@ -103,11 +138,12 @@ def signup():
         reg_email = request.form['new_user']
         reg_password = request.form['new_pass']
         verify = request.form['new_pass_2']
+        reg_nick = request.form['new_nick']
     
-        if validated(reg_email, reg_password, verify):
+        if validated(reg_email, reg_password, verify, reg_nick):
             exist_user = User.query.filter_by(db_email=reg_email).first()
             if not exist_user:
-                user = User(reg_email, reg_password)
+                user = User(reg_email, reg_password, reg_nick)
                 db.session.add(user)
                 db.session.commit()
                 session['email'] = reg_email
@@ -116,7 +152,7 @@ def signup():
             else:
                 flash("User already exists.", "error")
         
-    return render_template('signup.html')
+    return render_template('signup.html', loggedin=in_session())
 
 #function to logout
 @app.route('/logout')
@@ -124,27 +160,24 @@ def logout():
     if 'email' in session:
         flash("User succesfully logged out.", "greenlight")
         del session['email']
-        return redirect('/login')
-    else:
-        flash("Not logged in", "error")
         return redirect('/')
 
-#function to retrieve the previous posts in reverse order
-def get_posts():
-    return Post.query.filter_by(deleted=False).order_by(Post.id.desc()).all()
-
 #function to "delete" a post
+
+"""
+TODO: Fix delete to ONLY delete post if current user is owner
+"""
+
 @app.route("/del-post", methods=['POST'])
 def del_post():
     post_id = request.form['post_id']
-    print(post_id)
-    
+       
     deleted_post = Post.query.get(post_id)
-    print(deleted_post)
+
     deleted_post.deleted = True
     db.session.add(deleted_post)
     db.session.commit()
-
+    
     return redirect("/")
 
 #function for rendering a post on its own page
@@ -157,12 +190,12 @@ def single_post():
         flash("Post ID '{0}' does not exist. ".format(post_id), "error")
         return redirect("/")
 
-    return render_template('singlepost.html', post=display_post)
+    return render_template('singlepost.html', post=display_post, loggedin=in_session())
 
 #function for rendering the "new post" page
 @app.route("/new-post")
 def new_post():
-    return render_template('newpost.html')
+    return render_template('newpost.html', loggedin=in_session())
 
 #function to add a new post to the db
 @app.route("/add-post", methods=['GET', 'POST'])
@@ -185,24 +218,49 @@ def add_post():
     if no_error:
         new_post = Post(new_title, new_body, get_date(), author)
 
+        fetch_user = User.query.filter_by(db_email=session['email']).first()
+        fetch_user.db_postcount += 1
+                
         db.session.add(new_post)
+        db.session.add(fetch_user)
         db.session.commit()
+
         fetch_post = Post.query.filter_by(db_title=new_title).first()
         return redirect("/post?id="+str(fetch_post.id))
     
     else:
-        return render_template('newpost.html',post_title=new_title, post_body=new_body)
+        return render_template('newpost.html',post_title=new_title, post_body=new_body, loggedin=in_session())
 
-def get_date():
-    postdate = datetime.datetime.now()
-    at_date = postdate.strftime("%b %d %Y")
-    at_time = postdate.strftime("%I:%M %p")
-    return at_time+" | "+at_date
+#return a list of authors
+@app.route("/authors")
+def authors():
+    
+    return render_template('authors.html', author_list=get_authors(), loggedin=in_session())
 
+#return posts authored by the logged-in user
+@app.route("/selfpost")
+def self_post():
+    self_author = User.query.filter_by(db_email=session['email']).first()
+    return redirect("/blog?id="+str(self_author.id))
+
+#return posts by a specific author
+@app.route("/blog")
+def author_posts():
+    
+    by_author = request.args.get("id")
+    blog_author = User.query.filter_by(id=by_author).first()
+
+    if blog_author not in get_authors():
+        flash("Author ID '{0}' does not exist. ".format(by_author), "error")
+        return redirect("/")
+
+    return render_template('posts.html', post_list=get_blog_posts(by_author), loggedin=in_session())
+
+#return all blog posts
 @app.route("/")
 def index():
 
-    return render_template('posts.html', post_list=get_posts())
+    return render_template('posts.html', post_list=get_posts(), loggedin=in_session())
 
 if __name__ == "__main__":
     app.run()
