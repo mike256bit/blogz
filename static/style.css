@@ -5,11 +5,12 @@
 
 body {
     text-align: center;
+    font-size: 14px;
 }
 
 a {
     color: #572222;
-    font-size: 14px;
+    
 }
 
 h1 {
@@ -180,6 +181,10 @@ table {
     min-width: 400px;
 }
 
+table.author {
+    text-align: left;
+}
+
 td {
     text-align: center;
     position: relative;
@@ -236,4 +241,11 @@ td.label {
     color: white;
     font-size: 14px;
     border-radius: 2px;
+}
+
+span.label {
+    padding: 2px 2px;
+    font-weight: bolder;
+    border-radius: 2px;
+    color: #572222;
 }

@@ -2,6 +2,13 @@
 
 {% block content %}
 
+{% if author %}
+    {% if author.db_postcount == 0 %}
+    <div style="height: 100px;"></div>
+    <h2>There doesn't seem to be anything here.</h2>
+    {% endif %}
+{% endif %}
+
 {% for post in post_list: %}
 
 <div class="post">
