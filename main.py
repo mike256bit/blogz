@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from flask_sqlalchemy import SQLAlchemy
 import datetime
+from hashutils import make_pw_hash, check_pw_hash
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -38,7 +39,7 @@ class User(db.Model):
 
     def __init__(self, email, password, nickname):
         self.db_email = email
-        self.db_password = password
+        self.db_password = make_pw_hash(password)
         self.db_nickname = nickname
         self.db_postcount = 0
     
@@ -102,7 +103,7 @@ def login():
         print("LOGIN FUNCTION")
         user = User.query.filter_by(db_email=login_email).first()
         
-        if user and user.db_password == login_pass:
+        if user and check_pw_hash(login_pass, user.db_password):
             session['email'] = login_email
             flash("Welcome {0}, you are logged in.".format(login_email), "greenlight")
             return redirect("/")
