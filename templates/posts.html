@@ -28,7 +28,10 @@
             {% endif %}
         </form>
     </div>
-
+    
 {% endfor %}
+
+<h2>{% if next_url %}<a href="/?page={{next_url}}">Older posts</a> {% endif %}
+    {% if prev_url %}<a href="/?page={{prev_url}}">Newer posts</a> {% endif %}</h2>
 
 {% endblock %}

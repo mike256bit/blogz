@@ -66,10 +66,10 @@ def in_session():
 def get_posts(author_id):
     if author_id.isdigit():
         print("GET POSTS FROM AUTHOR FUNCTION")
-        return Post.query.filter_by(deleted=False, author_id=author_id).order_by(Post.id.desc()).all()
+        return Post.query.filter_by(deleted=False, author_id=author_id).order_by(Post.id.desc())
     else:
         print("GET ALL POSTS FUNCTION")
-        return Post.query.filter_by(deleted=False).order_by(Post.id.desc()).all()
+        return Post.query.filter_by(deleted=False).order_by(Post.id.desc())
 
 #function to retrieve the previous posts in reverse order
 def get_authors():
@@ -194,7 +194,7 @@ def single_post():
     print("SINGLE POST FUNCTION")
     display_post = Post.query.filter_by(id=post_id).first()
 
-    if display_post not in get_posts(""):
+    if display_post not in get_posts("").all():
         flash("Post ID '{0}' does not exist. ".format(post_id), "error")
         return redirect("/")
 
@@ -267,13 +267,22 @@ def author_posts():
         flash("Author ID '{0}' does not exist. ".format(by_author), "error")
         return redirect("/")
 
-    return render_template('posts.html', post_list=get_posts(by_author), loggedin=in_session(), author=blog_author)
+    return render_template('posts.html', post_list=get_posts(by_author).all(), loggedin=in_session(), author=blog_author)
 
 #return all blog posts
 @app.route("/")
 def index():
 
-    return render_template('posts.html', post_list=get_posts(""), loggedin=in_session())
+    page = request.args.get('page', 1, type=int)
+    posts = get_posts("").paginate(page, 4, False)
+    if posts.has_next:
+        next_url = page=posts.next_num
+    else: next_url = ""
+    if posts.has_prev:
+        prev_url = page=posts.prev_num
+    else: prev_url = ""
+
+    return render_template('posts.html', post_list=posts.items, loggedin=in_session(), next_url=next_url, prev_url=prev_url)
 
 if __name__ == "__main__":
     app.run()
