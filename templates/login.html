@@ -5,19 +5,20 @@
 <form action="/login" method="POST">
 <table>
     <tr>
-        <td colspan="3"><h2>Login Portal</h2></td>
+        <td colspan="2"><h2>Login Portal</h2></td>
     </tr>
     <tr>
         <td class="label">Email:</td>
         <td><input name="user_login" type="text" value="" tabindex="1" autofocus></td>
-        <td rowspan="2">
-            <button class="login" type="submit" tabindex="3">Login</button>
-            <!-- <button type="reset" tabindex="4">Clear</button> -->
-        </td>
     </tr>
     <tr>
         <td class="label">Password:</td>
         <td><input name="user_pass" type="password" tabindex="2">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button class="login" type="submit" tabindex="3">Login</button>
         </td>
     </tr>
 </table>

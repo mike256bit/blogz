@@ -9,6 +9,10 @@
     {% endif %}
 {% endif %}
 
+{% if author %}
+<h2>Posts by {{author.db_nickname}} | Post Count: {{author.db_postcount}}</h2>
+{% endif %}
+
 {% for post in post_list: %}
 
 <div class="post">

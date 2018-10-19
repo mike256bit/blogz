@@ -3,21 +3,21 @@
 {% block content %}
 
 <form action="/add-post" method="POST">
-<table class="newpost">
+<table>
     <tr>
-        <td colspan="3"><h2>Add A New Post</h2></td>
+        <td colspan="2"><h2>Add A New Post</h2></td>
     </tr>
     <tr>
         <td class="label">Title:</td>
-        <td><input name="title" type="text" value="{{post_title}}" tabindex="1" autofocus></td>
         <td>
+            <input name="title" type="text" value="{{post_title}}" tabindex="1" autofocus>
             <button type="submit" tabindex="3">Post</button>
             <button type="reset" tabindex="4">Clear</button>
         </td>
     </tr>
     <tr>
         <td class="label">Post:</td>
-        <td colspan="2">
+        <td>
             <textarea name="body" tabindex="2">{{post_body}}</textarea>
         </td>
     </tr>

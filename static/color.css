@@ -1,0 +1,63 @@
+/* Master color selector - red */
+.red {
+    color: #572222;
+    background-image: linear-gradient(90deg, #fce1e1, transparent);
+}
+
+.red button,
+.red .label,
+.red .tooltiptext {
+    background-color: #572222;
+}
+
+.red .tooltiptext::after {
+    border-color: transparent #572222 transparent transparent;
+}
+
+/* Master color selector - blue */
+.blue {
+    color: #30235f;
+    background-image: linear-gradient(90deg, #e0ddff, transparent);
+}
+
+.blue button,
+.blue .label,
+.blue .tooltiptext {
+    background-color: #30235f;
+}
+
+.blue .tooltiptext::after {
+    border-color: transparent #30235f transparent transparent;
+}
+
+/* Master color selector - green */
+.green {
+    color: #174117;
+    background-image: linear-gradient(90deg, #e4ffdd, transparent);
+}
+
+.green button,
+.green .label,
+.green .tooltiptext {
+    background-color: #174117;
+}
+
+.green .tooltiptext::after {
+    border-color: transparent #174117 transparent transparent;
+}
+
+/* Master color selector - purple */
+.purple {
+    color: #41173e;
+    background-image: linear-gradient(90deg, #f7cdff, transparent);
+}
+
+.purple button,
+.purple .label,
+.purple .tooltiptext {
+    background-color: #41173e;
+}
+
+.purple .tooltiptext::after {
+    border-color: transparent #41173e transparent transparent;
+}

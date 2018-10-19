@@ -5,61 +5,135 @@
 
 body {
     text-align: center;
+}
+
+.navbar {
     font-size: 14px;
 }
 
-a {
-    color: #572222;
-    
+.colorfinder {
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
+.colorfinder div {
+    width: 20px;
+    height: 20px;
+    float: left;
+}
+
+.label, input, textarea, button, .messagebox{
+    border-radius: 2px;
+}
+
+.tooltiptext, button, .label {
+    color: white;
+}
+
+a {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+}
+
+/* page title */
 h1 {
-    color: #572222;
     border-bottom-style: double;
     border-bottom-color: rgb(105, 105, 105, .8);
-    width: 350px;
+    width: 360px;
     line-height: .7;
-    margin: 15px auto;
+    margin: 20px auto;
     font-size: 32px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/* page headers */
 h2 {
     font-size: 16px;
-    color: #572222;
-    margin: 5px;
+    margin: 0 auto 10px;
 }
 
-/* refactor error message classes? */
+/* flash messages */
+.messagebox {
+    margin: 2px auto;
+    padding: 3px 10px;
+    font-size: 12px;
+    display: inline-block;
+    background-color:  #b4b4b47e;
+}
 
 .error {
     color: red;
-    display: block;
-    width: 250px;
-    margin: 0 auto 0;
-    background-color:  #e2d0d0;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 12px;
 }
 
 .greenlight {
     color: rgb(25, 109, 0);
-    text-shadow: 0 0 3px rgb(0, 255, 0, .7);
-    display: block;
-    width: 250px;
-    margin: 0 auto 0;
-    background-color:  #d3e2d0;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 12px;
+    text-shadow: 0 0 3px rgb(0, 255, 0, .5);
 }
 
+/* generic table properties */
+table {
+    margin: 0 auto;
+    border-spacing: 3px 3px;
+}
+
+td {
+    position: relative;
+    /* border: 1px solid black; */
+}
+
+/* table labels for forms*/
+.label {
+    text-align: center;
+    width: 100px;
+    font-size: 14px;
+    padding: 3px;
+    margin: 3px;
+}
+
+input {
+    width: 200px;
+    padding: 2px;
+    border: 1px solid gray;
+    float: left;
+}
+
+textarea {
+    width: 400px;
+    height: 150px;
+    font-size: 12px;
+    padding: 2px;
+    border: 1px solid gray;
+    resize: none;
+    margin-bottom: -4px;
+}
+
+button {
+    width: 60px;
+    font-weight: bold;
+    padding: 3px;
+    border: none;
+    float: right;
+    margin-left: 5px;
+}
+
+button:focus {
+    opacity: .85;
+}
+ 
+/* change button to full width on login, signup */
+button.login {
+    margin-top: 10px;
+    height: 40px;
+    width: 100%;
+}
+
+/* post details */
 .post {
     width: 60%;
     min-width: 250px;
-    margin: 20px auto;
-    /* border: 1px solid black; */
+    margin: 0 auto;
     padding: 2px;
     position: relative;
     overflow-wrap: break-word;
@@ -67,36 +141,37 @@ h2 {
 
 .title {
     border-top: 1px solid #1f1e1e;
-    border-left: 5px solid #1f1e1e;
-    color: #572222;
+    border-left: 4px solid #1f1e1e;
+    border-top-left-radius: 7px;
     font-size: 20px;
     padding-left: 5px;
     text-align: left;
     letter-spacing: 1.2px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background-image: linear-gradient(135deg, #e6e6e6, white)
+    background-image: linear-gradient(90deg, #dfdfdf6c, white)
 }
 
+/* alternate title info for author table */
 .authors {
     font-size: 16px;
     letter-spacing: initial;
+    width: 300px;
 }
 
 .postcount {
     float: right;
 }
 
-.title a {
-    text-decoration-line: none;
-    font-size: inherit;
-    font-family: inherit;
+.body, .date, button.deleted {
+    color: black;
 }
 
 .body {
     text-align: justify;
-    padding: 0 20px;
+    padding: 0 20px; 
     font-size: 14px;
-    border-left: 5px solid gray;
+    border-left: 4px solid gray;
+    border-bottom-left-radius: 7px;
 }
 
 .date {
@@ -104,50 +179,46 @@ h2 {
     font-size: 10px;
 }
 
-.date a {
+.title a, .date a {
     text-decoration-line: none;
-    font-size: inherit;
-    font-family: inherit;
 }
 
+/* delete button */
 button.deleted {
     width: 26px;
     height: 26px;
     border-radius: 100%;
     border: 1px solid black;
     text-align: center;
-    font-weight: bold;
     font-size: 11px;
-    background-color: #fff;
+    font-family: inherit;
+    background-color: white;
     z-index: 10;
     position: absolute;
     top: -10px;
     right: 0px;
     box-shadow: 0 0 3px #572222;
-    color:  #572222;
 }
 
 button.deleted:hover {
-    box-shadow: 0 0 6px #572222;
+    box-shadow: 0 0 10px #572222;
 }
 
 button.deleted .tooltiptext {
     visibility: hidden;
     position: absolute;
     width: 80px;
-    background-color: #572222;
-    color: white;
     left: 155%;
     top: 2px;
     font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
     font-size: 12px;
     text-align: center;
     padding: 10px 5px;
-    border-radius: 5px;
     z-index: 2;
     line-height: 0;
-    opacity: .75;
-
+    opacity: .80;
+    border-radius: 5px;
 }
 
 button.deleted .tooltiptext::after {
@@ -159,7 +230,6 @@ button.deleted .tooltiptext::after {
     border-width: 5px;
     border-right-width: 8px;
     border-style: solid;
-    border-color: transparent #572222 transparent transparent;
     z-index: 10;
 }
 
@@ -167,85 +237,3 @@ button.deleted:hover .tooltiptext {
     visibility: visible;
 }
 
-/* refactor table CSS for login and signup */
-
-table {
-    width: 400px;
-    margin: 100px auto;
-    border-spacing: 5px 3px;
-}
-
-.newpost {
-    /* border: 1px solid black; */
-    width: 60%;
-    min-width: 400px;
-}
-
-table.author {
-    text-align: left;
-}
-
-td {
-    text-align: center;
-    position: relative;
-    /* border: 1px solid black; */
-
-}
-
-td input {
-    width: 100%;
-    padding: 2px;
-    border-radius: 2px;
-    border: 1px solid gray;
-}
-
-td textarea {
-    width: 100%;
-    height: 150px;
-    font-size: 12px;
-    padding: 2px;
-    margin: -1px 0 -2px;
-    border: 1px solid gray;
-    border-radius: 2px;
-    resize: none;
-}
-
-td button {
-    width: 60px;
-    height: 110%;
-    margin-left: 10px;
-    margin-right: -5px;
-    background-color: #572222;
-    color: white;
-    font-weight: bold;
-    padding: 3px;
-    border: none;
-    float: right;
-    border-radius: 2px;
-}
-
-td button:focus {
-    background-color: rgb(87, 34, 34, .75);
-}
-
-td button.login {
-    padding: 18px 0;
-    float: left;
-}
-
-td.label {
-    text-align: center;
-    width: 40px;
-    padding: 0 10px;
-    background-color:  rgb(87, 34, 34, .75);
-    color: white;
-    font-size: 14px;
-    border-radius: 2px;
-}
-
-span.label {
-    padding: 2px 2px;
-    font-weight: bolder;
-    border-radius: 2px;
-    color: #572222;
-}
